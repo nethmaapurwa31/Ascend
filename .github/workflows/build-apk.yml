@@ -15,6 +15,7 @@ jobs:
       - name: HTML to APK
         uses: kimhuilim/web-to-app-action@Alpha3
         with:
+          build-folder-path: '.'
           app-name: 'Ascend'
-          package-name: 'comou.ascend'
-          index-html-path: 'index.html'
+          app-id-apk: 'com.you.ascend'
+          output-folder-path: 'apk-output'
