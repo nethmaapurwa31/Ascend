@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#141433">
+<title>Ascend</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Georgia,'Times New Roman',serif;min-height:100vh;overflow-x:hidden;transition:background 2s ease,color 1s ease;color:#e8e0d0}
+  .dawn{background:linear-gradient(180deg,#2b1f3a 0%,#5a3a5e 40#c97b5a 75%,#e8b46a 100%)}
+  .day{background:linear-gradient(180deg,#7fb2c9 0%,#a8ccc9 45%,#d8c9a3 100%);color:#2a2a33}
+  .dusk{background:linear-gradient(180deg,#1a1430 0%,#4a2c4f 45%,#a34a3f 80#d98e4a 100%)}
+  .night{background:linear-gradient(180deg,#0a0a1a 0%,#141433 60%,#1f1f45 100%)}
+  .newmoon{filter:saturate(.7) brightness(.85)}
+  .{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .star{:absolute;background:#fff;border-radius:50%;animation:twinkle 3s infinite ease-in-out}
+  .day .star{opacity:0}
+  @keyframes twinkle{0%,100%{transform:scale(1)}50%{transform:scale(1.6);opacity:.3}}
+  .container{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:24 20px 80px}
+  header{text-align:center;padding:30px 0 10px}
+  .brand{font-size:15px;letter-spacing:6px;text-transform:uppercase;opacity:.75}
+  h1.question{font-size:28px;font-weight:normal;font-style:italic;margin-top:14px;line-height:1.3}
+  .skyline{font-size:13px;opacity:.7;margin-top:12px;font-family:'Helvetica Neue',sans-serif}
+  .sanctuary{height:190px;margin:22px 0;border-radius:16px;position:relative;overflow:hidden;background:rgba(0,0,0,.18);display:flex;align-items:flex-end;justify-content:center}
+  .moon-orb{position:absolute;top:22px;right:30px;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fdf6e3,#cfc8a8);box-shadow:0 0 30px rgba(253,246,227,.6)}
+  .newmoon .moon-orb{background:radial-gradient(circle at 35% 35%,#444,#222);box-shadow:0 0 8px rgba(255,255,255,.15)}
+  .aeon{position:absolute;bottom:18px;right:26px;font-size:34px;transition:transform .5s ease;cursor:pointer}
+  .terrain{width:130%;height:70px;background:radial-gradient(ellipse at 50% 100%,rgba(20,40,25,.9),rgba(10,25,15,.95));border-radius:50% 50% 0 0;position:relative}
+ .flame{position:absolute;bottom:34px;font-size:20px;animation:flicker 1.2s infinite}
+  @keyframes flicker{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:.6;transform:scale(.9)}}
+  .sanctuary-label{position:absolute;bottom:8px;left:16px;font-size:12px;font-style:italic;opacity:.7}
+  .energy{text-align:center;margin:20px 0}
+  .energy p{font-size:14px;font-style:italic;opacity:.85;margin-bottom:10px}
+  .energy button{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:inherit;width:46px;height:46px;border-radius:50%;margin:0 5px;font-size:18px;cursor:pointer;transition:all .3s;font-family:inherit}
+  .energy button:hover,.energy button.sel{background:rgba(255,255,255,.35);transform:scale(1.15)}
+  .habits h2,.reflect h2{font-size:13px;letter-spacing:3px;text-transform:uppercase;opacity:.7;margin:26px 0 12px;text-align:center}
+  .habit{display:flex;align-items:center;gap:14px;padding:16px;margin:10px 0;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.15);border-radius:14px;transition:all .3s;cursor:pointer}
+  .habit:hover{transform:translateX(4px);background:rgba(0,0,0,.32)}
+  .habit .ember{font-size:22px;filter:grayscale(1) brightness(.7);transition:filter .5s}
+  .habit.done .ember{filter:none;animation:pop .4s}
+  @keyframes pop{50%{transform:scale(1.5)}}
+  .habit .info{flex:1}
+  .habit .name{font-size:17px}
+  .habit .root{font-size:11px;opacity:.6;font-family:'Helvetica Neue',sans-serif;letter-spacing:1px;text-transform:uppercase}
+  .habit .effort{font-size:12px;font-style:italic;opacity:.7}
+  .habit.done{border-color:rgba(255,220,1505);box-shadow:0 0 18px rgba(255,200,100,.15)}
+  .reflect textarea{width:100%;min-height:70px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.2);border-radius:12px;color:inherit;padding:12px;font-family:inherit;font-size:14px;font-style:italic;resize:vertical}
+  .btn{margin-top:12px;padding:12px 28px;background:rgba(255,220,150,.2);border:1px solid rgba(255,220,150,.5);color:inherit;border-radius:30px;font-family:inherit;font-size:14px;letter-spacing:2px;cursor:pointer;transition:all .3s}
+  .btn:hover{background:rgba(255,220,150,.4)}
+  .descent{margin:18px 0;padding:16px;border-radius:14px;text-align:center;display:none;background:linear-gradient(135deg,rgba(60,20,60,.6),rgba(20,20,50,.6));border:1px solid rgba(180,120,255,.4)}
+  .descent.show{display:block;animation:fadein 1s}
+  @keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+  .descent .rune-count{font-size:12px;letter-spacing:2px;margin-top:8px;opacity:.8}
+  .modal{position:fixed;inset:0;background:rgba(5,5,15,.85);z-index:10;display:none;align-items:center;justify-content:center}
+  .modal.show{display:flex}
+  .modal-card{background:#1c1c33;border:1px solid rgba(255,220,150,.3);border-radius:20px;padding:34px;max-width:400px;width:90%;text-align:center}
+  .modal-card h3{font-weight:normal;font-style:italic;font-size:22px;margin-bottom:18px}
+  .modal-card input,.modal-card select{width:100%;padding:12px;margin:8px ;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);border-radius:10px;color:#fff;font-family:inherit;font-size:15px}
+  .modal-card option{color:#000}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(20,20,40,.95);border:1px solid rgba(255,220,,.4);padding:12px 24px;border-radius:30px;font-size:14px;font-style:italic;transition:transform .5s;z-index:20}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .stats{display:flex;justify-content:space-around;margin:22px 0;text-align:center}
+  .stat .num{font-size:26px}
+  .stat .lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.6}
+  .backup{text-align:center;margin-top:20px  .backup .btn{opacity:.6;font-size:12px;padding:9px 18px;margin:4px}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="container">
+  <header>
+    <div class="brand">✦ A S C E N D ✦</div>
+    <h1 class="question">Who are you becoming today?</h1>
+    <div class="skyline" id="skyline"></div>
+  </header>
+  <div class="sanctuary">
+    <div class="moon-orb"></div>
+    <div class="terrain"><span class="flame" id="flame">🔥</span></div>
+    <div class="aeon" id="aeon">🦊</div>
+    <div class="sanctuary-label" id="sanctuary-label"></div>
+  </div>
+  <div class="energy">
+    <p>How does your spirit arrive today?</p>
+    <div id="energyBtns"></div>
+  </div>
+  <div class="descent" id="descent">
+    <div style="font-style:italic">You have entered the <b>Descent</b>.<br>One small act — even two minutes — ends it.</div>
+    <div class="rune-count" id="runeCount"></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num" id="lumen">0</div><div class="lbl">Lumen</div></div>
+    <div class="stat"><div class="num" id="radiance">0</div><div class="lbl">Radiance</div></div>
+    <div class="stat"><div class="num" id="runes">0</div><div class="lbl">Runes</div></div>
+  </div>
+  <div class="habits">
+    <h2>Today's Embers</h2>
+    <div id="habitList"></div>
+    <div style="text-align:center"><button class="btn" onclick="openRitual()">✦ Craft a New Ember</button></div>
+  </div>
+  <div class="reflect">
+    <h2>Dusk Reflection</h2>
+    <textarea id="journal" placeholder="What did today teach the person you're becoming"></textarea>
+    <button class="btn" onclick="saveJournal()">Seal the Reflection</button>
+  </div>
+  <div class="backup">
+    <button class="btn" onclick="exportSoul()">⟡ Carry Your Flame (backup)</button>
+    <button class="btn" onclick="document.getElementById('importFile').click()">⟡ Receive It (restore)</button>
+    <input type="file" id="importFile" style="display:none" onchange="importSoul(this)">
+  </div>
+</div>
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h3>Name the ember you wish to feed.</h3>
+    <input id="newName" placeholder="e.g. Morning movement" maxlength="40">
+    <select id="newRoot">
+      <option value="Body">🌱 Body</option><option value="Mind">🧠 Mind</option>
+      <option value="Spirit">✨ Spirit</option><option value="Bond">🤝 Bond</option>
+    </select>
+    <select id="newEffort">
+      <option value="spark">Spark · 2 minutes</option>
+      <option value="flow">Flow · 20 minutes</option>
+      <option value="deep">Deep work · 60 minutes</option>
+    </select>
+    <button class="btn" onclick="addHabit()">Light It</button><br>
+    <button class="btn" style="border:none;opacity:.5" onclick="closeModal()">not yet</button>
+  </div>
+</div>
+<div class="toast" id="toast</div>
+<script>
+const ROOT_EMOJI={Body:'🌱',Mind:'🧠',Spirit:'✨',Bond:'🤝'};
+const AEONS={Fire:'🐉',Water:'🦦',:'🦉',Air:'🦋',Eclipse:'🐺'};
+
+let state=JSON.parse(localStorage.getItem('ascend')||'null')||{
+  habits:[
+    {id:1,name:'Morning movement',root:'Body',effort:'flow',done:false},
+    {id:2,name:'Read something true',root:'Mind',effort:'spark',done:false},
+    {id3,name:'Stillness',root:'Spirit',effort:'spark',done:false}
+  ],
+  energy:null,lumen:0,radiance:0,runes:0,missedDays:0,aeon:'Fire',journal:'',lastDay:null
+};
+const save=()=>localStorage.setItem('ascend',JSON.stringify(state));
+
+/* Midnight rollover */
+const today=()=>new Date().toDateString();
+if(state.lastDay && state.lastDay!==today()){
+  if(!state.habits.some(h=>h.done)) state.missedDays=(state.missedDays||0)+1;
+  state.habits.forEach(h=>h.done=false);
+  state.energy=null;
+  state.journal='';
+}
+state.lastDay=today(); save();
+
+/* Sky & moon */
+function moonPhase(d){
+  const lp=2551443,now=d.getTime()/1000,nm=new Date('2000-01-06T18:14Z').getTime()/1000;
+  const phase=((now-nm)%lp)/lp;
+  return {phase,illum:Math.round((1-Math.cos(2*Math.PI*phase))/2*100)};
+}
+const mp=moonPhase(new Date());
+const hr=new Date().getHours();
+const timeCls=hr<8?'dawn':hr<17?'day':hr<20?'dusk':'night';
+document.body.className=timeCls+(mp.illum<8?' newmoon':'');
+const phaseName=mp.illum>92?'Full Moon':mp.illum>50?(mp.phase<.5?'Waxing Gibbous':'Waning Gibbous'):mp.illum>8?(mp.phase<.5?'Waxing Crescent':'Waning Crescent'):'New Moon';
+document.getElementById('skyline').textContent=({dawn:'Dawn',day:'Day',dusk:'Dusk',night:'Night'})[timeCls]+' · '+phaseName+' · '+mp.illum+'% illuminated';
+document.getElementById('sanctuary-label').textContent={dawn:'Mist lifts from your land…',day:'Your sanctuary rests in clear light.',dusk:'The embers burn low and warm.',night:'Stars keep watch over your grove.'}[timeCls];
+
+/* Stars */
+for(let i=0;i<70;i++){
+  const s=document.createElement('div');s.className='star';
+  s.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*55)+'%;width:'+(1+Math.random()*2)+'px;height:'+(1+Math.random()*2)+'px;animation-delay:'+(Math.random()*3)+'s';
+  document.getElementById('stars').appendChild(s);
+}
+
+/* Aeon */
+function updateAeon(){
+  const el=document.getElementById('aeon');
+  el.textContent=AEONS[state.aeon]||'🦊';
+  e=state.energy;
+  el.style.transform=e==null?'none':e<=2?'translateY(6px) scale(.85)':e>=4?'translateY(-8px) scale(1.15)':'none';
+  document.getElementById('flame').style.opacity=e==null?.5:(.2+e*.18);
+}
+
+/* Energy */
+const eWrap=document.getElementById('energyBtns');
+for(let i=1;i<=5;i++){
+  const b=document.createElement('button');b.textContent=i;
+  if(state.energy===i)b.classList.add('sel');
+  b.onclick=()=>{state.energy=i;save();
+    Array.from(eWrap.children).forEach(x=>x.classList.remove('sel'));b.classList.add('sel');
+    updateAeon();toast(i<=2?'The world softens to meet you.':i>=4?'Your sanctuary brightens.':'Noted, quietly.');
+  };
+  eWrap.appendChild(b);
+}
+
+/* Habits */
+function render(){
+  const list=document.getElementById('habitList');list.innerHTML='';
+  state.habits.forEach(h=>{
+    const d=document.createElement('div');
+    d.className='habit'+(h.done?' done':'');
+    d.innerHTML='<span class="ember">'+(h.done?'🔥':'🕯️')+'</span><div class="info"><div class="name">'+h.name+'</div><div class="root">'+(ROOT_EMOJI[h.root]||'✨')+' '+h.root+' · '+h.effort+'</div></div>';
+    d.onclick=()=>toggleHabit(h.id);
+    list.appendChild(d);
+  });
+  document.getElementById('lumen').textContent=state.lumen;
+  document.getElementById('radiance').textContent=state.radiance;
+  document.getElementById('runes').textContent=state.runes;
+  document.getElementById('descent').classList.toggle('show',state.missedDays>=2);
+  document.getElementById('runeCount').textContent='Runes held: '+state.runes;
+  document.getElementById('journal').value=state.journal||'';
+  updateAeon();
+}
+function toggleHabit(id){
+  const h=state.habits.find(x=>x.id===id);
+  h.done=!h.done;
+  if(h.done){
+    state.lumen+=h.effort==='deep'?5:h.effort==='flow'?3:2;
+    state.radiance+=1;
+    if(state.missedDays>=2){
+      state.runes+=1;state.missedDays=0;
+      toast('The Descent ends. A rune is yours — you have risen. 🜂');
+    }else toast(h.effort==='spark'?'A small fire, faithfully lit.':'The ember feeds your sanctuary.');
+  }
+  save();render();
+}
+
+/* Modal, journal, backup */
+function openRitual(){document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function addHabit(){
+  const n=document.getElementById('newName').value.trim();
+  if(!n)return toast('Give it a name, even a small one.');
+  state.habits.push({id:Date.now(),name:n,root:document.getElementById('newRoot').value,effort:document.getElementById('newEffort').value,done:false});
+  save();render();closeModal();toast('An ember is lit. Tend it gently.');
+}
+function saveJournal(){
+  state.journal=document.getElementById('journal').value;save();
+  toast(state.journal?"Sealed beneath tonight's sky.":'Even silence is an answer.');
+}
+function exportSoul(){
+  const blob=new Blob([localStorage.getItem('ascend')],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='ascend-flame-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();toast('Your flame is carried. Keep it somewhere safe.');
+}
+function importSoul(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{localStorage.setItem('ascend',e.target.result);state=JSON.parse(e.target.result);save();render();toast('The flame returns home. 🔥')};
+  r.readAsText(f);
+}
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3200);
+}
+render();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
