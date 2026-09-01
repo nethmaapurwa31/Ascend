@@ -1,0 +1,20 @@
+name: Build Ascend APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: HTML to APK
+        uses: kimhuilim/web-to-app-action@Alpha3
+        with:
+          app-name: 'Ascend'
+          package-name: 'comou.ascend'
+          index-html-path: 'index.html'
